@@ -1,0 +1,20 @@
+{
+  "name": "nodebackend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Deveshsharma1234/CarDekho#readme",
+  "bugs": {
+    "url": "https://github.com/Deveshsharma1234/CarDekho/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deveshsharma1234/CarDekho.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
