@@ -1,0 +1,44 @@
+create database cardekho;
+ use cardekho;
+CREATE TABLE Roles (
+    RoleId INT AUTO_INCREMENT PRIMARY KEY,
+    Role VARCHAR(30) NOT NULL,
+    createdBy CHAR(7) DEFAULT 'SYSTEM',
+    createdDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    activeState BOOLEAN DEFAULT TRUE
+);
+
+
+CREATE TABLE Users (
+    UserId INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(10) NOT NULL,
+    MiddleName VARCHAR(10),
+    LastName VARCHAR(10) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+  
+    Phone VARCHAR(10) NOT NULL,
+    Address VARCHAR(50),
+    Pincode VARCHAR(7),
+    State VARCHAR(50) NOT NULL,
+    District VARCHAR(20) NOT NULL,
+    City VARCHAR(20) NOT NULL,
+    IsRegistered BOOLEAN DEFAULT TRUE,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ModifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ActiveState BOOLEAN DEFAULT TRUE,	
+    ModifiedBy VARCHAR(20),
+    RoleId INT,
+    FOREIGN KEY (RoleId) REFERENCES Roles(RoleId)
+);
+ALTER TABLE Users
+ADD COLUMN Password VARCHAR(200) NOT NULL;
+ALTER TABLE users
+ADD CONSTRAINT UNIQUE (Email);
+
+
+INSERT INTO Roles (Role, createdBy, activeState) 
+VALUES ('Admin', 'SYSTEM', 1);
+
+INSERT INTO Roles (Role, createdBy, activeState) 
+VALUES ('Citizen', 'SYSTEM', 1);
