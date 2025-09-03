@@ -1,12 +1,13 @@
 const express = require('express');
 const db = require('../config/db')
 const authAndAuthorize = require('../middlewares/authAndAuthorize');
+const { getAllUsersQuery, getUserByIdQuery, updateUserQuery, softDeleteByIdQuery } = require('../utils/query/userQuery');
 const userRouter = express.Router();
 
 
 userRouter.get("/getAllUsers", authAndAuthorize(1, 2), (req, res) => {
     try {
-        const statement = `select UserId,FirstName,LastName,Email,Phone,Address,Pincode,State,District,City,RoleId from users where ActiveState = true order by RoleId`;
+        const statement =getAllUsersQuery
         db.pool.query(statement, (error, users) => {
             if (error) res.status(400).json({ error: error.message })
             if (users.length == 0) res.status(404).json({ message: "Users not found" });
@@ -24,7 +25,7 @@ userRouter.get("/getAllUsers", authAndAuthorize(1, 2), (req, res) => {
 userRouter.get("/user/:UserId", authAndAuthorize(1, 2), (req, res) => {
     try {
         const { UserId } = req.params;
-        const statement = `select UserId,FirstName,LastName,Email,Phone,Address,Pincode,State,District,City,RoleId from users where UserId = ? and activeState = true`;
+        const statement = getUserByIdQuery
         db.pool.query(statement, [UserId], (error, users) => {
             if (error) res.status(400).json({ error: error.message })
             if (users.length == 0) res.status(404).json({ message: "Users not found" });
@@ -80,21 +81,7 @@ userRouter.patch("/user", authAndAuthorize(1, 2), (req, res) => {
             ModifiedBy = "SYSTEM"
         }
 
-        const updateQuery = `
-            UPDATE users SET
-                FirstName = ?,
-                LastName = ?,
-                Phone = ?,
-                Address = ?,
-                Pincode = ?,
-                State = ?,
-                District = ?,
-                City = ?,
-                ModifiedDate = ?,
-                ModifiedBy = ?
-            WHERE UserId = ?
-        `;
-
+        const updateQuery = updateUserQuery
         const values = [
             FirstName,
             LastName,
@@ -134,7 +121,7 @@ userRouter.patch("/user", authAndAuthorize(1, 2), (req, res) => {
 userRouter.delete("/user", authAndAuthorize(1, 2), (req, res) => {
     try {
         const user = req.user;
-        const statement = 'Update users set ActiveState = false where UserId = ?';
+        const statement = softDeleteByIdQuery;
         db.pool.execute(statement, [user.UserId], (error, result) => {
             if (error) res.status(400).json({ error: error.message })
             res.json({
@@ -154,7 +141,7 @@ userRouter.delete("/user", authAndAuthorize(1, 2), (req, res) => {
 userRouter.delete("/user/:UserId", authAndAuthorize(1), (req, res) => {
     const { UserId } = req.params;
 
-    const statement = 'UPDATE users SET ActiveState = false WHERE UserId = ?';
+    const statement = softDeleteByIdQuery;
 
     db.pool.execute(statement, [UserId], (error, result) => {
         if (error) {

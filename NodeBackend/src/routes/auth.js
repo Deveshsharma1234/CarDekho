@@ -4,6 +4,7 @@ const CryptoJS = require('crypto-js'); // Import crypto-js
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const {validateRegister} = require('../utils/validateRegister');
+const { citizenRegisterQuery, loginQuery } = require('../utils/query/authQuery');
 
 
 
@@ -17,7 +18,7 @@ authRouter.post("/citizen-register", (req, res) => {
         // Use CryptoJS to hash the password
         const hashedPassword = CryptoJS.SHA256(Password).toString(CryptoJS.enc.Base64);
 
-        const query = `insert into users (FirstName,LastName,Email,Phone,Address,Pincode,State,District,City,RoleId,Password) values(?,?,?,?,?,?,?,?,?,?,?)`;
+        const query = citizenRegisterQuery;
         db.pool.execute(query, [FirstName, LastName, Email, Phone, Address, Pincode, State, District, City, 2, hashedPassword], (err, result) => {
             if (err) {
                 return res.status(500).json({ message: err.message });
@@ -54,7 +55,7 @@ authRouter.post("/login", (req, res) => {
     try {
         const { Email, Password } = req.body;
 
-        const statement = `select  UserId,FirstName,LastName,Email,Phone,Address,Pincode,State,District,City,RoleId,ActiveState from users where Email = ? and Password = ? `;
+        const statement = loginQuery
         const hashedPassword = CryptoJS.SHA256(Password).toString(CryptoJS.enc.Base64);
         db.pool.query(statement, [Email, hashedPassword], (err, users) => {
             if (err) res.status(400).json({ message: err.message })

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
-const db = require('../config/db')
+const db = require('../config/db');
+const { authAndAuthorizeQuery } = require('../utils/query/authAndAuthorizeQuery');
 
 // pass allowed role IDs as arguments
 const authAndAuthorize = (...allowedRoles) => {
@@ -16,7 +17,7 @@ const authAndAuthorize = (...allowedRoles) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY); 
             const UserId = decoded.UserId;
             const RoleId = decoded.RoleId;
-           const statement = `select UserId,FirstName,LastName,Email,Phone,Address,Pincode,State,District,City,RoleId from users where UserId = ? and RoleId = ?`;
+           const statement = authAndAuthorizeQuery
                       // Wrap the query in a promise to use with async/await
             const user = await new Promise((resolve, reject) => {
                 db.pool.query(statement, [UserId, RoleId], (error, users) => {
