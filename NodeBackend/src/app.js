@@ -6,7 +6,15 @@ const app = express();
 const morgan = require('morgan')
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const cors = require('cors')
 
+
+app.use(
+    cors({
+        origin: "http://localhost:5173", // frontend origin
+        credentials: true,               // allow cookies & headers
+    })
+);
 app.use(express.json());
 app.use(cookieParser());
 
