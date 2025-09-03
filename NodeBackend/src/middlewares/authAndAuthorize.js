@@ -2,10 +2,6 @@ const jwt = require('jsonwebtoken')
 const db = require('../config/db')
 
 // pass allowed role IDs as arguments
-//Role  ID = 1 for admin
-//Role Id =2 for  Government Representative 
-//Role Id =3 for  Government emp  
-//Role Id  =4 for Citizens
 const authAndAuthorize = (...allowedRoles) => {
     return async (req, res, next) => {
         // console.log(req.cookies);

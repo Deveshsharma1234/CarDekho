@@ -4,14 +4,15 @@ const cookieParser = require('cookie-parser')
 const {connectDB} =require('./config/db')
 const app = express();
 const morgan = require('morgan')
-const authRouter = require('./routes/auth')
+const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
 
 app.use(express.json());
 app.use(cookieParser());
 
 //morgan for log on console
 app.use(morgan('dev'));
-app.use("/app", authRouter)
+app.use("/app", authRouter , userRouter)
 
 // Directly call connectDB without promises
 connectDB(); 
