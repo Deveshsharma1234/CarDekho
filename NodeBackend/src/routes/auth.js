@@ -105,9 +105,9 @@ authRouter.post("/logout", (req, res) => {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: false, // 🔐 Set to true in production (with HTTPS)
+            secure: false, //  Set to true in production (with HTTPS)
             sameSite: "lax", // or "none" only if cross-site & over HTTPS
-            path: "/" // ✅ VERY important to match cookie path
+            path: "/" //  VERY important to match cookie path
 
         })
         console.log("cleared Cookies");
