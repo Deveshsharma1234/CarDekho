@@ -3,6 +3,12 @@ const db = require('../config/db');
 const { authAndAuthorizeQuery } = require('../utils/query/authAndAuthorizeQuery');
 
 // pass allowed role IDs as arguments
+//Role ID = 1 for admin
+//Role Id =2 for  Citizens
+//Role Id =3 for   Dealer  
+//Role Id =4 for SupportStaff 
+//Role Id =5 for Verifier 
+// pass allowed role IDs as arguments
 const authAndAuthorize = (...allowedRoles) => {
     return async (req, res, next) => {
         // console.log(req.cookies);

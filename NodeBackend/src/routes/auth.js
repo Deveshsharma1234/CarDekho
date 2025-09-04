@@ -66,11 +66,14 @@ authRouter.post("/login", (req, res) => {
                 if (user.ActiveState == 0) {
                     res.status(410).json({ message: "User already deleted " });
                 } else {
+                    // Reverse mapping RoleId → RoleName
+                    const RoleMap = Object.fromEntries(
+                        Object.entries(Roles).map(([key, value]) => [value, key]));
                     const payload = {
                         UserId: user.UserId,
-                        Role: user.RoleId == 1 ? "Admin" : "Citizen",
-                        RoleId: user.RoleId
-                    }
+                        RoleId: user.RoleId,
+                        Role: RoleMap[user.RoleId] || "Unknown"
+                    };
                     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
                     res.cookie("token", token, {
                         httpOnly: true,

@@ -2,10 +2,11 @@ const express = require('express');
 const db = require('../config/db')
 const authAndAuthorize = require('../middlewares/authAndAuthorize');
 const { getAllUsersQuery, getUserByIdQuery, updateUserQuery, softDeleteByIdQuery } = require('../utils/query/userQuery');
+const Roles = require('../utils/Roles/roles');
 const userRouter = express.Router();
+const profileUpload = require('../middlewares/profileUploadConfig');
 
-
-userRouter.get("/getAllUsers", authAndAuthorize(1, 2), (req, res) => {
+userRouter.get("/getAllUsers", authAndAuthorize(Roles.Admin, Roles.Verifier,Roles.Dealer, Roles.SupportStaff), (req, res) => {
     try {
         const statement =getAllUsersQuery
         db.pool.query(statement, (error, users) => {
@@ -22,7 +23,7 @@ userRouter.get("/getAllUsers", authAndAuthorize(1, 2), (req, res) => {
 })
 
 // to get other users profile by admin , gov officer and rep only
-userRouter.get("/user/:UserId", authAndAuthorize(1, 2), (req, res) => {
+userRouter.get("/user/:UserId", authAndAuthorize(Roles.Admin, Roles.Verifier,Roles.Dealer, Roles.SupportStaff), (req, res) => {
     try {
         const { UserId } = req.params;
         const statement = getUserByIdQuery
@@ -43,7 +44,7 @@ userRouter.get("/user/:UserId", authAndAuthorize(1, 2), (req, res) => {
 })
 
 // get users  profile
-userRouter.get("/getProfile", authAndAuthorize(1, 2), (req, res) => {
+userRouter.get("/getProfile", authAndAuthorize(Roles.Admin, Roles.Verifier,Roles.Dealer, Roles.SupportStaff, Roles.Citizen), (req, res) => {
     try {
 
         const User = req.user;
@@ -57,6 +58,7 @@ userRouter.get("/getProfile", authAndAuthorize(1, 2), (req, res) => {
     }
 });
 
+//udate self
 userRouter.patch("/user", authAndAuthorize(1, 2), (req, res) => {
     try {
         const user = req.user;
@@ -117,8 +119,23 @@ userRouter.patch("/user", authAndAuthorize(1, 2), (req, res) => {
     }
 });
 
+//update image/profile
+userRouter.patch('/profile-picture', authAndAuthorize(1,2,3,4,5), profileUpload.single('profile'), (req, res) => {
+    const user = req.user;
+    if (!req.file) return res.status(400).json({ message: "No image uploaded" });
 
-userRouter.delete("/user", authAndAuthorize(1, 2), (req, res) => {
+    const profileImagePath = `/uploads/profiles/${req.file.filename}`;
+
+    const query = `UPDATE users SET ProfileImage = ?, ModifiedDate = NOW(), ModifiedBy = ? WHERE UserId = ?`;
+    const values = [profileImagePath, user.FirstName || "SYSTEM", user.UserId];
+
+    db.pool.execute(query, values, (err, result) => {
+        if (err) return res.status(400).json({ error: err.message });
+        res.json({ message: "Profile picture updated successfully", profileImagePath });
+    });
+});
+
+userRouter.delete("/user", authAndAuthorize(Roles.Admin, Roles.Citizen,Roles.Dealer,Roles.SupportStaff, Roles.Verifier), (req, res) => {
     try {
         const user = req.user;
         const statement = softDeleteByIdQuery;
@@ -137,8 +154,8 @@ userRouter.delete("/user", authAndAuthorize(1, 2), (req, res) => {
 
     }
 })
-// YSer blocked by admin only
-userRouter.delete("/user/:UserId", authAndAuthorize(1), (req, res) => {
+// User blocked by admin only
+userRouter.delete("/user/:UserId", authAndAuthorize(Roles.Admin), (req, res) => {
     const { UserId } = req.params;
 
     const statement = softDeleteByIdQuery;
@@ -151,7 +168,6 @@ userRouter.delete("/user/:UserId", authAndAuthorize(1), (req, res) => {
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "User not found or already deactivated" });
         }
-
         return res.status(200).json({
             message: "User Deactivated",
             result
