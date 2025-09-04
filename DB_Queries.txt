@@ -31,6 +31,9 @@ CREATE TABLE Users (
     RoleId INT,
     FOREIGN KEY (RoleId) REFERENCES Roles(RoleId)
 );
+
+ALTER TABLE users
+ADD COLUMN ProfileImage VARCHAR(255) DEFAULT 'https://ui-avatars.com/api/?name=User&background=random';
 ALTER TABLE Users
 ADD COLUMN Password VARCHAR(200) NOT NULL;
 ALTER TABLE users
@@ -42,3 +45,181 @@ VALUES ('Admin', 'SYSTEM', 1);
 
 INSERT INTO Roles (Role, createdBy, activeState) 
 VALUES ('Citizen', 'SYSTEM', 1);
+INSERT INTO Roles (Role, createdBy, activeState) VALUES ('Dealer', 'SYSTEM', 1);
+INSERT INTO Roles (Role, createdBy, activeState) VALUES ('SupportStaff', 'SYSTEM', 1);
+INSERT INTO Roles (Role, createdBy, activeState) VALUES ('Verifier', 'SYSTEM', 1);
+
+CREATE TABLE States (
+    StateId INT AUTO_INCREMENT PRIMARY KEY,
+    State VARCHAR(15) NOT NULL,
+    CreatedBy VARCHAR(50),
+    CreatedDate DATETIME,
+    ModifiedBy VARCHAR(50),
+    ModifiedDate DATETIME,
+    ActiveStatus BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE Districts (
+    DistrictID INT AUTO_INCREMENT PRIMARY KEY,
+    District VARCHAR(50) NOT NULL,
+    StateID INT,
+    CreatedBy VARCHAR(50),
+    CreatedDate DATETIME,
+    ModifiedBy VARCHAR(50),
+    ModifiedDate DATETIME,
+    ActiveStatus BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (StateID) REFERENCES States(StateID)
+);
+
+CREATE TABLE Cities (
+    CityID INT AUTO_INCREMENT PRIMARY KEY,
+    City VARCHAR(50) NOT NULL,
+    DistrictID INT,
+    StateID INT,
+    CreatedBy VARCHAR(50),
+    CreatedDate DATETIME,
+    ModifiedBy VARCHAR(50),
+    ModifiedDate DATETIME,
+    ActiveStatus BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (DistrictID) REFERENCES Districts(DistrictID),
+    FOREIGN KEY (StateID) REFERENCES States(StateID)
+);
+
+
+-- Car Brands (e.g., Maruti, Hyundai, Honda)
+CREATE TABLE CarBrands (
+    BrandId INT AUTO_INCREMENT PRIMARY KEY,
+    BrandName VARCHAR(50) NOT NULL UNIQUE,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Car Models (e.g., Swift, Creta, City)
+CREATE TABLE CarModels (
+    ModelId INT AUTO_INCREMENT PRIMARY KEY,
+    BrandId INT NOT NULL,
+    ModelName VARCHAR(50) NOT NULL,
+    FuelType ENUM('Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid'),
+    Transmission ENUM('Manual', 'Automatic'),
+    BodyType ENUM('Hatchback','Sedan','SUV','MUV','Coupe','Convertible','Pickup','Van'),
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (BrandId) REFERENCES CarBrands(BrandId)
+);
+
+-- Cars listed by users
+CREATE TABLE CarListings (
+    ListingId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL, -- Seller
+    ModelId INT NOT NULL,
+    RegistrationYear YEAR NOT NULL,
+    Mileage INT, -- in KM
+    OwnersCount INT DEFAULT 1, -- first/second/third owner
+    Price DECIMAL(12,2) NOT NULL,
+    Description TEXT,
+    StateId INT,
+    DistrictId INT,
+    CityId INT,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ModifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ActiveStatus BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (ModelId) REFERENCES CarModels(ModelId),
+    FOREIGN KEY (StateId) REFERENCES States(StateId),
+    FOREIGN KEY (DistrictId) REFERENCES Districts(DistrictId),
+    FOREIGN KEY (CityId) REFERENCES Cities(CityId)
+);
+
+-- Images of cars
+CREATE TABLE CarImages (
+    ImageId INT AUTO_INCREMENT PRIMARY KEY,
+    ListingId INT NOT NULL,
+    ImageURL VARCHAR(255) NOT NULL,
+    UploadedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ListingId) REFERENCES CarListings(ListingId)
+);
+
+-- Transactions (when a buyer purchases a car)
+CREATE TABLE Transactions (
+    TransactionId INT AUTO_INCREMENT PRIMARY KEY,
+    BuyerId INT NOT NULL,
+    SellerId INT NOT NULL,
+    ListingId INT NOT NULL,
+    FinalPrice DECIMAL(12,2),
+    TransactionDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('Pending','Completed','Cancelled') DEFAULT 'Pending',
+    FOREIGN KEY (BuyerId) REFERENCES Users(UserId),
+    FOREIGN KEY (SellerId) REFERENCES Users(UserId),
+    FOREIGN KEY (ListingId) REFERENCES CarListings(ListingId)
+);
+
+-- Saved / Favourite Cars
+CREATE TABLE Wishlist (
+    WishlistId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    ListingId INT NOT NULL,
+    AddedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (ListingId) REFERENCES CarListings(ListingId)
+);
+
+-- Reviews for specific car listings
+CREATE TABLE CarReviews (
+    ReviewId INT AUTO_INCREMENT PRIMARY KEY,
+    ListingId INT NOT NULL,
+    ReviewerId INT NOT NULL, -- the buyer or visitor
+    Rating INT CHECK(Rating BETWEEN 1 AND 5),
+    Comment TEXT,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ListingId) REFERENCES CarListings(ListingId),
+    FOREIGN KEY (ReviewerId) REFERENCES Users(UserId)
+);
+
+-- Reviews for sellers (user to user rating)
+CREATE TABLE SellerReviews (
+    ReviewId INT AUTO_INCREMENT PRIMARY KEY,
+    SellerId INT NOT NULL,
+    ReviewerId INT NOT NULL,
+    Rating INT CHECK(Rating BETWEEN 1 AND 5),
+    Comment TEXT,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (SellerId) REFERENCES Users(UserId),
+    FOREIGN KEY (ReviewerId) REFERENCES Users(UserId)
+);
+
+-- Reports for system (sales, revenue, fraud cases)
+CREATE TABLE Reports (
+    ReportId INT AUTO_INCREMENT PRIMARY KEY,
+    ReportType ENUM('Sales','Revenue','Fraud','UserActivity','CarListings') NOT NULL,
+    GeneratedBy INT, -- Admin user
+    ReportDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FilePath VARCHAR(255), -- where report is stored (PDF/Excel)
+    FOREIGN KEY (GeneratedBy) REFERENCES Users(UserId)
+);
+
+-- Fraud detection (flag suspicious listings or users)
+CREATE TABLE FraudAlerts (
+    AlertId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT,
+    ListingId INT,
+    Reason VARCHAR(255) NOT NULL,
+    Status ENUM('Pending','Verified','Rejected') DEFAULT 'Pending',
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ReviewedBy INT, -- Admin who checks
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (ListingId) REFERENCES CarListings(ListingId),
+    FOREIGN KEY (ReviewedBy) REFERENCES Users(UserId)
+);
+
+CREATE TABLE SellerVerification (
+    VerificationId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    GovtIdType ENUM('Aadhar','PAN','DrivingLicense','Passport'),
+    GovtIdNumber VARCHAR(30) UNIQUE,
+    DocumentURL VARCHAR(255), -- path to uploaded proof
+    Status ENUM('Pending','Approved','Rejected') DEFAULT 'Pending',
+    VerifiedBy INT, -- Admin user
+    VerifiedDate DATETIME,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (VerifiedBy) REFERENCES Users(UserId)
+);
+
+
