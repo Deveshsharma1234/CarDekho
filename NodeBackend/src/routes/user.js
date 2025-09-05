@@ -28,10 +28,10 @@ userRouter.get("/user/:UserId", authAndAuthorize(Roles.Admin, Roles.Verifier,Rol
         const { UserId } = req.params;
         const statement = getUserByIdQuery
         db.pool.query(statement, [UserId], (error, users) => {
-            if (error) res.status(400).json({ error: error.message })
-            if (users.length == 0) res.status(404).json({ message: "Users not found" });
+            if (error) return res.status(400).json({ error: error.message })
+            if (users.length == 0)  return res.status(404).json({ message: "Users not found" });
             const user = users[0];
-            res.json({
+           return res.json({
                 user: user
             })
 
@@ -74,14 +74,9 @@ userRouter.patch("/user", authAndAuthorize(1, 2), (req, res) => {
         } = req.body;
 
         const ModifiedDate = new Date();
-        let ModifiedBy;
-        if (user.RoleId == 1) ModifiedBy = "Admin";
-        if (user.RoleId == 2) ModifiedBy = "Government Representative";
-        if (user.RoleId == 3) ModifiedBy = "Government emp "
-        if (user.RoleId == 4) ModifiedBy = FirstName;
-        else {
-            ModifiedBy = "SYSTEM"
-        }
+        let ModifiedBy = user.FirstName || "SYSTEM";
+    
+       
 
         const updateQuery = updateUserQuery
         const values = [

@@ -71,7 +71,7 @@ listingRouter.post('/', authAndAuthorize(2, 3), upload.array('images', 5), (req,
         const { BrandId, ModelId, Year, Mileage, FuelType, Transmission, Price, CityID, Description } = req.body;
         const CreatedDate = new Date();
 
-        const values = [user.UserId, BrandId, ModelId, Year, Mileage, FuelType, Transmission, Price, CityID, Description, CreatedDate, "SYSTEM"];
+        const values = [user.UserId, BrandId, ModelId, Year, Mileage, FuelType, Transmission, Price, CityID, Description, CreatedDate, user.FirstName +" "+user.LastName ];
         db.pool.execute(createListingQuery, values, (err, result) => {
             if (err) return res.status(400).json({ error: err.message });
 
@@ -94,7 +94,7 @@ listingRouter.post('/', authAndAuthorize(2, 3), upload.array('images', 5), (req,
 });
 
 // Update listing
-listingRouter.patch('/:ListingId', authAndAuthorize(2, 3, 1), upload.array('images', 5), (req, res) => {
+listingRouter.patch('/:ListingId', authAndAuthorize(2, 3, 1), upload.array('images', 5),  (req, res) => {
     try {
         const user = req.user;
         const { ListingId } = req.params;
@@ -103,7 +103,7 @@ listingRouter.patch('/:ListingId', authAndAuthorize(2, 3, 1), upload.array('imag
         const ModifiedBy = user.FirstName || "SYSTEM";
 
         const values = [BrandId, ModelId, Year, Mileage, FuelType, Transmission, Price, CityID, Description, ModifiedDate, ModifiedBy, ListingId, user.UserId];
-        db.pool.execute(updateListingQuery, values, (err, result) => {
+         db.pool.execute(updateListingQuery, values, (err, result) => {
             if (err) return res.status(400).json({ error: err.message });
             if (result.affectedRows === 0) return res.status(404).json({ message: "Listing not found or you are not the owner" });
 
