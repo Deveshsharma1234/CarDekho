@@ -1,7 +1,7 @@
 const express = require('express');
 const citiesRouter = express.Router();
 const db = require('../config/db');
-const authAndAuthorize = require('../middleware/authAndAuthorize');
+const authAndAuthorize = require('../middlewares/authAndAuthorize');
 
 
 // /cities	Get all cities

@@ -4,6 +4,7 @@ const CryptoJS = require('crypto-js'); // Import crypto-js
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const {validateRegister} = require('../utils/validateRegister');
+const Roles = require('../utils/Roles/roles');
 const { citizenRegisterQuery, loginQuery } = require('../utils/query/authQuery');
 
 

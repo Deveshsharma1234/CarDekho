@@ -34,7 +34,7 @@ const getListingByIdQuery = `
 const createListingQuery = `
     INSERT INTO carlistings 
     (SellerId, BrandId, ModelId, Year, Mileage, FuelType, Transmission, Price, CityID, Description, CreatedDate, CreatedBy, ActiveState) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
 // Add car images for a listing

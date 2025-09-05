@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../config/db');
 
-const authAndAuthorize = require('../middleware/authAndAuthorize');
+const authAndAuthorize = require('../middlewares/authAndAuthorize');
 
 const districtRouter = express.Router();
 
