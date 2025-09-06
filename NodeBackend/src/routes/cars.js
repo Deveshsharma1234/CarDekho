@@ -40,7 +40,7 @@ carsRouter.post(
   "/brands",
   authAndAuthorize(Roles.Admin, Roles.SupportStaff),
   (req, res) => {
-    const { BrandName } = req.body;
+    const { BrandName } = req.body;     
     try {
       db.pool.execute(createBrandQuery, [BrandName], (err, result) => {
         if (err) return res.status(400).json({ error: err.message });
@@ -67,11 +67,7 @@ carsRouter.post("/models", authAndAuthorize(Roles.Admin, Roles.SupportStaff),
     }
 
     try {
-      db.pool.execute(
-        `  INSERT INTO carmodels 
-  (BrandId, ModelName, FuelType, Transmission, BodyType, CreatedDate) 
-  VALUES (?, ?, ?, ?, ?, NOW())`,
-        [brandId, name, fuelType || null, transmission || null, bodyType || null],
+      db.pool.execute(createModelQuery,[brandId, name, fuelType || null, transmission || null, bodyType || null],
         (err, result) => {
           if (err) return res.status(400).json({ error: err.message });
 

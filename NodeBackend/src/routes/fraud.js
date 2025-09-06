@@ -14,7 +14,7 @@ const fraudRouter = express.Router();
  */
 
 // 1️ Get all fraud alerts (Admin, Verifier)
-fraudRouter.get("/", authAndAuthorize(Roles.Admin, Roles.Verifier), (req, res) => {
+fraudRouter.get("/GetAllFrauds", authAndAuthorize(Roles.Admin, Roles.Verifier), (req, res) => {
   try {
     db.pool.query(getAllFraudAlertsQuery, [], (err, rows) => {
       if (err) return res.status(400).json({ error: err.message });
@@ -26,16 +26,11 @@ fraudRouter.get("/", authAndAuthorize(Roles.Admin, Roles.Verifier), (req, res) =
 });
 
 // 2️ Resolve fraud alert (Admin, Verifier)
-fraudRouter.patch(
-  "/:id/resolve",
-  authAndAuthorize(Roles.Admin, Roles.Verifier),
-  (req, res) => {
+fraudRouter.patch("/GetAllFrauds/:AlertId/resolve",authAndAuthorize(Roles.Admin, Roles.Verifier),(req, res) => {
     try {
-      const { id } = req.params;
-      const ResolvedBy = req.user.UserId;
-      const ResolvedAt = new Date();
-
-      const values = [ResolvedBy, ResolvedAt, id];
+      const { AlertId } = req.params;
+      const ReviewedBy = req.user.UserId;
+      const values = [ReviewedBy, AlertId];
 
       db.pool.execute(resolveFraudAlertQuery, values, (err, result) => {
         if (err) return res.status(400).json({ error: err.message });

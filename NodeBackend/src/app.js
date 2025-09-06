@@ -18,6 +18,8 @@ const reviewRouter  = require('./routes/review');
 const transactionRouter = require('./routes/transaction');
 const verificationRouter  = require('./routes/verification');
 const wishlistRouter = require('./routes/wishlist');
+const { initializeCronJobs } = require('./tasks/cron');
+const path = require('path');
 
 
 app.use(
@@ -31,12 +33,13 @@ app.use(cookieParser());
 
 //morgan for log on console
 app.use(morgan('dev'));
-debugger;
+
 app.use("/app", authRouter , userRouter,carsRouter,citiesRouter,districtRouter,stateRouter,fraudRouter,listingRouter,reviewRouter,reviewRouter,reportRouter,transactionRouter,verificationRouter,wishlistRouter)
-
+app.use('/reports', express.static(path.join(__dirname, 'reports')));
 // Directly call connectDB without promises
-connectDB(); 
+// connectDB(); 
 
+initializeCronJobs();
 app.use("/app/check-server", (req, res)=>{
     res.send("Hy checking server")
 })

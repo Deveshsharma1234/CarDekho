@@ -1,17 +1,18 @@
 // Get all fraud alerts
  const getAllFraudAlertsQuery = `
-  SELECT f.FraudId, f.UserId, u.FirstName, u.Email, f.Description, f.Status, f.CreatedAt
+  SELECT f.AlertId, f.UserId, u.FirstName, u.Email, f.Reason, f.Status, f.CreatedDate
   FROM fraudalerts f
   JOIN users u ON f.UserId = u.UserId
-  ORDER BY f.CreatedAt DESC
+  ORDER BY f.CreatedDate DESC
 `;
 
 // Resolve fraud alert
- const resolveFraudAlertQuery = `
+const resolveFraudAlertQuery = `
   UPDATE fraudalerts
-  SET Status = 'Resolved', ResolvedBy = ?, ResolvedAt = ?
-  WHERE FraudId = ?
+  SET Status = 'Verified', ReviewedBy = ?
+  WHERE AlertId = ?
 `;
+
 
 module.exports = {
   getAllFraudAlertsQuery,
