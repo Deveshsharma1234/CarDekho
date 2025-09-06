@@ -33,11 +33,11 @@ app.use(cookieParser());
 
 //morgan for log on console
 app.use(morgan('dev'));
-app.use("/app", authRouter , userRouter)
+// app.use("/app", authRouter , userRouter)
 
-app.use("/app", authRouter , userRouter,carsRouter,citiesRouter,districtRouter,stateRouter,fraudRouter,listingRouter,reviewRouter,reviewRouter,reportRouter,transactionRouter,verificationRouter,wishlistRouter)
+app.use("/app", authRouter , userRouter,carsRouter,citiesRouter,districtRouter,stateRouter,fraudRouter,listingRouter,reviewRouter,reportRouter,transactionRouter,verificationRouter,wishlistRouter)
 app.use('/reports', express.static(path.join(__dirname, 'reports')));
-// Directly call connectDB without promises
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // connectDB(); 
 
 initializeCronJobs();

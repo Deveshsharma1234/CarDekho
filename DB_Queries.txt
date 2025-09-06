@@ -128,6 +128,8 @@ CREATE TABLE CarListings (
     FOREIGN KEY (CityId) REFERENCES Cities(CityId)
 );
 
+ALTER TABLE carlistings
+ADD CreatedBy VARCHAR(100);
 -- Images of cars
 CREATE TABLE CarImages (
     ImageId INT AUTO_INCREMENT PRIMARY KEY,
