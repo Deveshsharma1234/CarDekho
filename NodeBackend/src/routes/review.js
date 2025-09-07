@@ -19,10 +19,7 @@ const reviewRouter = express.Router();
  */
 
 // 1️ Post car review (Citizen, Dealer)
-reviewRouter.post(
-  "/car",
-  authAndAuthorize(Roles.Citizen, Roles.Dealer),
-  (req, res) => {
+reviewRouter.post("/car",authAndAuthorize(Roles.Citizen, Roles.Dealer),(req, res) => {
     try {
       const user = req.user;
       const { ListingId, Rating, Comment } = req.body;

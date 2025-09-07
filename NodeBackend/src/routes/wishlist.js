@@ -6,12 +6,13 @@ const {
     removeFromWishlistQuery,
     getWishlistByUserQuery
 } = require("../utils/query/wishlistQuery");
+const Roles = require("../utils/Roles/roles");
 
 const wishlistRouter = express.Router();
 
 
 // Add listing to wishlist
-wishlistRouter.post("/", authAndAuthorize(2, 3), (req, res) => {
+wishlistRouter.post("/addWish", authAndAuthorize(1,2,3,4), (req, res) => {
     try {
         const user = req.user;
         const { ListingId } = req.body;
@@ -20,8 +21,8 @@ wishlistRouter.post("/", authAndAuthorize(2, 3), (req, res) => {
             return res.status(400).json({ message: "ListingId is required" });
         }
 
-        const CreatedDate = new Date();
-        const values = [user.UserId, ListingId, CreatedDate, "SYSTEM"];
+        const AddedDate = new Date();
+        const values = [user.UserId, ListingId, AddedDate, ];
 
         db.pool.execute(addToWishlistQuery, values, (err, result) => {
             if (err) {
@@ -43,7 +44,7 @@ wishlistRouter.post("/", authAndAuthorize(2, 3), (req, res) => {
 
 
 // Remove listing from wishlist
-wishlistRouter.delete("/:ListingId", authAndAuthorize(2, 3), (req, res) => {
+wishlistRouter.delete("/wish/:ListingId", authAndAuthorize(2, 3), (req, res) => {
     try {
         const user = req.user;
         const { ListingId } = req.params;
@@ -63,7 +64,7 @@ wishlistRouter.delete("/:ListingId", authAndAuthorize(2, 3), (req, res) => {
 
 
 // Get own wishlist
-wishlistRouter.get("/", authAndAuthorize(2, 3), (req, res) => {
+wishlistRouter.get("/myWishList", authAndAuthorize(Roles.Admin, Roles.Citizen, Roles.Dealer, Roles.Verifier, Roles.SupportStaff), (req, res) => {
     try {
         const user = req.user;
 

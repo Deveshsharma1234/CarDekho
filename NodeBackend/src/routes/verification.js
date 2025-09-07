@@ -16,7 +16,7 @@ const verificationRouter = express.Router();
  */
 
 // 1️ Get pending verifications (Admin, Verifier)
-verificationRouter.get("/pending", authAndAuthorize(Roles.Admin, Roles.Verifier), (req, res) => {
+verificationRouter.get("/getPendingVerivication", authAndAuthorize(Roles.Admin, Roles.Verifier), (req, res) => {
         try {
             db.pool.execute(getPendingVerificationsQuery, [], (err, rows) => {
                 if (err) return res.status(400).json({ error: err.message });
@@ -29,7 +29,7 @@ verificationRouter.get("/pending", authAndAuthorize(Roles.Admin, Roles.Verifier)
 );
 
 // 2️ Approve/Reject verification (Admin, Verifier)
-verificationRouter.patch("/:id", authAndAuthorize(Roles.Admin, Roles.Verifier),
+verificationRouter.patch("/varify/:id", authAndAuthorize(Roles.Admin, Roles.Verifier),
     (req, res) => {
         try {
             const { id } = req.params;
@@ -58,7 +58,7 @@ verificationRouter.patch("/:id", authAndAuthorize(Roles.Admin, Roles.Verifier),
 );
 
 // 3️ Get verification status (Owner, Admin, Verifier)
-verificationRouter.get("/:UserId",authAndAuthorize(Roles.Admin, Roles.Verifier, Roles.Citizen, Roles.Dealer),
+verificationRouter.get("/verifyStatus/:UserId",authAndAuthorize(Roles.Admin, Roles.Verifier, Roles.Citizen, Roles.Dealer),
     (req, res) => {
         try {
             const { UserId } = req.params;

@@ -16,10 +16,7 @@ const { watchFile } = require("fs");
 const listingRouter = express.Router();
 
 // Get all listings (searchable) with images as array
-listingRouter.get(
-    "/getAllListings",
-    authAndAuthorize(1, 2, 3, 4, 5),
-    (req, res) => {
+listingRouter.get("/getAllListings",  authAndAuthorize(1, 2, 3, 4, 5), (req, res) => {
         try {
             const { brand, model, city, minPrice, maxPrice } = req.query;
             let statement = getAllListingsQuery;
@@ -66,9 +63,7 @@ listingRouter.get(
 );
 
 // Get listing by ID with images as array
-listingRouter.get(
-    "/ListingById/:ListingId",
-    authAndAuthorize(1, 2, 3, 4, 5),
+listingRouter.get("/ListingById/:ListingId", authAndAuthorize(1, 2, 3, 4, 5),
     (req, res) => {
         try {
             const { ListingId } = req.params;
@@ -166,33 +161,27 @@ listingRouter.patch(
             const user = req.user;
             const { ListingId } = req.params;
             const {
-                BrandId,
-                ModelId,
-                Year,
-                Mileage,
-                FuelType,
-                Transmission,
-                Price,
-                CityID,
-                Description,
+              ModelId,
+              RegistrationYear,
+              Mileage,
+              Price,
+              CityId,
+              Description,
             } = req.body;
             const ModifiedDate = new Date();
             const ModifiedBy = user.FirstName || "SYSTEM";
 
             const values = [
-                BrandId,
-                ModelId,
-                Year,
-                Mileage,
-                FuelType,
-                Transmission,
-                Price,
-                CityID,
-                Description,
-                ModifiedDate,
-                ModifiedBy,
-                ListingId,
-                user.UserId,
+              ModelId,
+              RegistrationYear,
+              Mileage,
+              Price,
+              CityId,
+              Description,
+              ModifiedDate,
+              ModifiedBy,
+              ListingId,
+              user.UserId,
             ];
             db.pool.execute(updateListingQuery, values, (err, result) => {
                 if (err) return res.status(400).json({ error: err.message });

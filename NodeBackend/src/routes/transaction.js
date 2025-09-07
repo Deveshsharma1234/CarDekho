@@ -12,9 +12,7 @@ const Roles = require("../utils/Roles/roles");
 const transactionRouter = express.Router();
 
 // Purchase car (Citizen, Dealer)
-transactionRouter.post(
-  "/",
-  authAndAuthorize(Roles.Citizen, Roles.Dealer),
+transactionRouter.post("/buyCar",authAndAuthorize(Roles.Citizen, Roles.Dealer),
   (req, res) => {
     try {
       const user = req.user;
@@ -50,7 +48,7 @@ transactionRouter.post(
 
 // Get own transactions
 
-transactionRouter.get("/me", authAndAuthorize(1, 2, 3, 4, 5), (req, res) => {
+transactionRouter.get("/myTransactions", authAndAuthorize(1, 2, 3, 4, 5), (req, res) => {
   try {
     const user = req.user;
 
@@ -72,7 +70,7 @@ transactionRouter.get("/me", authAndAuthorize(1, 2, 3, 4, 5), (req, res) => {
 
 // Get all transactions (Admin only)
 
-transactionRouter.get("/", authAndAuthorize(Roles.Admin), (req, res) => {
+transactionRouter.get("/getAllTransactions", authAndAuthorize(Roles.Admin), (req, res) => {
   try {
     db.pool.query(getAllTransactionsQuery, (err, transactions) => {
       if (err) return res.status(400).json({ error: err.message });

@@ -45,7 +45,7 @@ const addCarImagesQuery = `
 const updateListingQuery = `
     UPDATE carlistings
     SET ModelId = ?, RegistrationYear = ?, Mileage = ?, Price = ?, CityId = ?, 
-        Description = ?, ModifiedDate = NOW()
+        Description = ?, ModifiedDate = NOW(), ModifiedBy = ?
     WHERE ListingId = ? AND UserId = ?
 `;
 

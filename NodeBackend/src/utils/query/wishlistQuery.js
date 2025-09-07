@@ -2,8 +2,8 @@
 
 // Add listing to wishlist
 const addToWishlistQuery = `
-  INSERT INTO wishlist (UserId, ListingId, CreatedDate, CreatedBy)
-  VALUES (?, ?, ?, ?)
+  INSERT INTO wishlist (UserId, ListingId, AddedDate)
+  VALUES (?, ?, ?)
 `;
 
 // Remove listing from wishlist
@@ -13,14 +13,22 @@ const removeFromWishlistQuery = `
 
 // Get wishlist of a user
 const getWishlistByUserQuery = `
-  SELECT w.WishlistId, w.ListingId, l.Price, l.Description, b.BrandName, m.ModelName, ci.CityName
+  SELECT 
+    w.WishlistId, 
+    w.ListingId, 
+    l.Price, 
+    l.Description, 
+    b.BrandName, 
+    m.ModelName, 
+    ci.City
   FROM wishlist w
   JOIN carlistings l ON w.ListingId = l.ListingId
-  JOIN carbrands b ON l.BrandId = b.BrandId
   JOIN carmodels m ON l.ModelId = m.ModelId
-  JOIN cities ci ON l.CityID = ci.CityID
+  JOIN carbrands b ON m.BrandId = b.BrandId
+  JOIN cities ci ON l.CityId = ci.CityId
   WHERE w.UserId = ?
 `;
+
 
 module.exports = {
   addToWishlistQuery,
