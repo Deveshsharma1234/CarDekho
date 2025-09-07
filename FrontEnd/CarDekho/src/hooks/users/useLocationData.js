@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { BASE_URL } from '../utils/constants';
-import apiClient from '../utils/apiClient';
+import { BASE_URL } from '../../utils/constants';
+import apiClient from '../../utils/apiClient';
+import { useDispatch } from 'react-redux';
+import { addStates } from '../../redux/slice/LocationSlice';
 
 const useLocationData = (selectedState, selectedDistrict,selectedCity) => {
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [cities, setCities] = useState([]);
    const [wards, setWards] = useState([]);
+   const dispatch = useDispatch();
 
   // Fetch all states
   useEffect(() => {
@@ -16,6 +19,8 @@ const useLocationData = (selectedState, selectedDistrict,selectedCity) => {
         const stateData = res.data?.states|| res.data?.Result|| [];
         console.log(stateData);
         setStates(stateData);
+        dispatch(addStates(stateData))
+        
       })
       .catch(err => {
         console.error('Failed to fetch states:', err);

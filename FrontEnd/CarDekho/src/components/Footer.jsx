@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 flex flex-wrap justify-between">
+    <footer className="footer  sm:footer-horizontal bg-gradient-to-br  from-black to-pink-950  p-4 flex flex-wrap justify-between text-sm ">
       <nav>
         <h6 className="footer-title">Services</h6>
         <Link to={"#branding"} className="link link-hover">Branding</Link>
@@ -49,13 +49,13 @@ const Footer = () => {
               </label>
               <div className="validator-hint hidden">Enter valid email address</div>
             </div>
-            <button className="btn btn-primary join-item">Join</button>
+            <button className="btn  btn-primary join-item">Join</button>
           </div>
         </fieldset>
       </form>
 
       {/* Copyright */}
-      <div className="w-full text-center pt-6 text-sm text-gray-500">
+      <div className="w-full text-center pt-1 text-sm text-gray-500">
         © 2025 Government Complaint Portal | Maintained by National Consumer Helpline
       </div>
     </footer>

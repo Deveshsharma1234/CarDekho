@@ -72,6 +72,11 @@ const getListingsByDealerQuery = `
     GROUP BY l.ListingId
 `;
 
+const getCilyListedWithCar = `SELECT DISTINCT c.CityID, c.City
+FROM cities c
+JOIN carlistings cl ON c.CityID = cl.CityId;
+`
+
 module.exports = {
     getAllListingsQuery,
     getListingByIdQuery,
@@ -79,5 +84,6 @@ module.exports = {
     addCarImagesQuery,
     updateListingQuery,
     deleteListingQuery,
-    getListingsByDealerQuery
+    getListingsByDealerQuery,
+    getCilyListedWithCar
 };

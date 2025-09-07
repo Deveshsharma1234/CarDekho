@@ -3,6 +3,8 @@ import App from "./App";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
+import About from "./pages/About";
 
 
 const appRouter = createBrowserRouter([
@@ -12,7 +14,7 @@ const appRouter = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: "<Home />" // Open to all
+                element: <Home /> // Open to all
             },
             {
                 path: "/register",
@@ -24,11 +26,9 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: "/about-us",
-                element: "<About />" // Open to all (assuming about us doesn't require login)
+                element: <About /> // Open to all (assuming about us doesn't require login)
             },
-            // Routes that require any logged-in user (roles 1, 2, 3, 4)
             {
-                // This is a parent route for all user-specific protected routes
                 // No specific 'allowedRoles' means only 'isLoggedIn' check applies
                 path: "/", // Keep it at the root for common user-level protection
                 element: <ProtectedRoute />, // Just check if logged in

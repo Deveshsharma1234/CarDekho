@@ -22,9 +22,9 @@ const userSlice = createSlice({
         removeUser : (state)=>{
             state.user = null;
             state.isLoggedIn = false
-            localStorage.removeItem("email");
+            // localStorage.removeItem("email");
             localStorage.removeItem("user");
-            localStorage.removeItem("password");
+            // localStorage.removeItem("password");
         }
     }
 

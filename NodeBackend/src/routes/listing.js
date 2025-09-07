@@ -10,6 +10,7 @@ const {
     updateListingQuery,
     deleteListingQuery,
     getListingsByDealerQuery,
+    getCilyListedWithCar
 } = require("../utils/query/listingQuery");
 const { watchFile } = require("fs");
 
@@ -62,6 +63,7 @@ listingRouter.get("/getAllListings",  authAndAuthorize(1, 2, 3, 4, 5), (req, res
     }
 );
 
+
 // Get listing by ID with images as array
 listingRouter.get("/ListingById/:ListingId", authAndAuthorize(1, 2, 3, 4, 5),
     (req, res) => {
@@ -76,6 +78,22 @@ listingRouter.get("/ListingById/:ListingId", authAndAuthorize(1, 2, 3, 4, 5),
                 listing.Images = listing.Images ? listing.Images.split(",") : [];
 
                 res.json({ listing });
+            });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+);
+// Get City where car listed
+listingRouter.get("/citiesWithCarListed", authAndAuthorize(1, 2, 3, 4, 5),
+    (req, res) => {
+        try {
+            db.pool.query(getCilyListedWithCar, (err, listings) => {
+                if (err) return res.status(400).json({ error: err.message });
+                if (listings.length === 0)
+                    return res.status(404).json({ message: "No Cities found Having Listed Cars" });
+
+                    res.json({ listings });
             });
         } catch (error) {
             res.status(500).json({ error: error.message });

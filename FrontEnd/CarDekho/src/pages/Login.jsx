@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
-import useSignInWithEmailAndPassword from "../hooks/useSignInWithEmailAndPassword"
+import useSignInWithEmailAndPassword from "../hooks/users/useSignInWithEmailAndPassword"
 import { useSelector } from "react-redux";
 
 
@@ -25,6 +25,9 @@ const Login = () => {
     login(emailRef, passwordRef, navigate);
 
   }
+  //for ease in login
+  const email = localStorage.getItem("email");
+  const password = localStorage.getItem("password");
 
 
   return (
@@ -61,6 +64,7 @@ const Login = () => {
                   name="email"
                   type="text"
                   placeholder="Email"
+                  defaultValue={email}
                   className="peer w-full border-b-2 border-gray-300 bg-transparent text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500 h-10"
                 />
                 <label
@@ -80,6 +84,7 @@ const Login = () => {
                   name="password"
                   type="password"
                   placeholder="Password"
+                  defaultValue={password}
                   className="peer w-full border-b-2 border-gray-300 bg-transparent text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500 h-10"
                 />
                 <label

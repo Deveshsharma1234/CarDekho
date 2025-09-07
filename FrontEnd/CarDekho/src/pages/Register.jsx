@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
-import useLocationData from '../hooks/useLocationData';
-import useRegisterCitizen from '../hooks/useRegisterCitizen';
+import useLocationData from '../hooks/users/useLocationData';
+import useRegisterCitizen from '../hooks/users/useRegisterCitizen';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { Link, useNavigate } from 'react-router';
 

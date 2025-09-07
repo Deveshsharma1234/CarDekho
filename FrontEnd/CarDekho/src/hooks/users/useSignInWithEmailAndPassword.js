@@ -1,9 +1,9 @@
 import { Bounce, toast } from "react-toastify";
 import { useCallback } from "react";
-import loginValidation from "../utils/validation/loginValidation";
+import loginValidation from "../../utils/validation/loginValidation";
 import { useDispatch } from "react-redux";
-import { addUser } from "../redux/slice/userSlice";
-import { BASE_URL } from "../utils/constants";
+import { addUser } from "../../redux/slice/userSlice";
+import { BASE_URL } from "../../utils/constants";
 
 const useSignInWithEmailAndPassword = () => {
     const dispatch = useDispatch();

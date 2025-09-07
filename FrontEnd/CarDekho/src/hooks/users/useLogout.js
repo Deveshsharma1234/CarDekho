@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { BASE_URL } from '../utils/constants'
+import { BASE_URL } from '../../utils/constants'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
-import { removeUser } from '../redux/slice/userSlice'
-import apiClient from '../utils/apiClient'
+import { removeUser } from '../../redux/slice/userSlice'
+import apiClient from '../../utils/apiClient'
 import { useNavigate } from 'react-router'
 
 

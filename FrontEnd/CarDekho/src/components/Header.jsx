@@ -6,9 +6,10 @@ import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { useSelector } from 'react-redux';
 import { IoLogOut } from "react-icons/io5";
-import useLogout from "../hooks/useLogout";
+import useLogout from "../hooks/users/useLogout";
 import { ToastContainer } from "react-toastify";
 import { ROLE_MAP as roleMap } from '../utils/constants';
+import logo from '../assets/logo.jpg';
 
 const Header = () => {
     const isLoggedIn = useSelector(store => store.user.isLoggedIn);
@@ -20,21 +21,21 @@ const Header = () => {
     };
 
     return (
-        <div className="navbar bg-gradient-to-r from-amber-100 to-amber-50 shadow-md">
+        <div className="navbar bg-gradient-to-br from-black to-pink-950 shadow-md sticky top-0 z-10 flex items-center justify-between px-4 py-2 ">
             <ToastContainer />
             <div className="flex-1">
                 <Link to={"/"} className="inline-block">
-                    <img
-                        src="https://consumerhelpline.gov.in/public/assets/NCH-Logo.png"
-                        alt="NCH Logo"
-                        className="h-12 pl-6" // Adjusted size for better balance
-                    />
+                    <div className="avatar pl-10">
+                        <div className="ring-primary ring-offset-base-100 w-20  rounded-full ring-2 ring-offset-2">
+                            <img src={logo} alt="logo" />
+                        </div>
+                    </div>
                 </Link>
             </div>
 
             <div className="flex gap-3 items-center justify-center pr-6">
                 <Link to="/">
-                    <MdHomeFilled className="size-8 text-indigo-600 hover:text-indigo-700 transition-colors" />
+                    <MdHomeFilled className="size-11 text-indigo-600 hover:text-indigo-700 transition-colors" />
                 </Link>
 
                 <Link to="/about-us">
@@ -49,7 +50,7 @@ const Header = () => {
                     href="https://consumeraffairs.nic.in/latest-updates"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition-colors"
+                    className="flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-xl hover:bg-pink-900 transition-colors"
                 >
                     <span className="font-medium">Knowledge Base</span>
                 </a>
@@ -79,7 +80,7 @@ const Header = () => {
                     {isLoggedIn ? (
                         <Link
                             onClick={handleLogout}
-                            className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition-colors"
+                            className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-900 transition-colors"
                         >
                             <IoLogOut className="size-5" />
                             <span className="font-medium">Logout</span>
