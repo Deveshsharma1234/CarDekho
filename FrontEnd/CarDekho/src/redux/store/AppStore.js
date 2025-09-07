@@ -3,6 +3,7 @@ import userReducer from "../slice/userSlice"
 import toggleSideBarReducer from "../slice/toggleSideBarSlice"
 import carReducer from "../slice/carSlice"
 import locationReducer from "../slice/LocationSlice"
+import candleReducer from "../slice/candleSlice"
 
 const AppStore = configureStore({
     reducer :{
@@ -10,6 +11,7 @@ const AppStore = configureStore({
         "user": userReducer,
         "toggleSideBar": toggleSideBarReducer,
         "location": locationReducer,
+        "candle": candleReducer
     }
 })
 

@@ -6,10 +6,14 @@ import AllCity from '../components/Cars/AllCity';
 const Home = () => {
     return (
         <div className='hero p-20 glass flex flex-col justify-center items-center ' >
-            {/* <h1 className=''>Home</h1> */}
-            <WhyUs/>
-            <AllBrands/>
-            <AllCity/>
+
+            <WhyUs />
+            <div className='grid grid-cols-2 gap-4 w-full mt-10'>
+                <AllBrands />
+                <AllCity />
+
+            </div>
+
         </div>
     );
 }

@@ -5,7 +5,7 @@ const WhyUs = () => {
         <div className="card bg-gradient-to-br from-black to-pink-950 text-white shadow-xl p-6 rounded-2xl">
       <h1 className="text-2xl font-bold mb-4 text-center">Why Us?</h1>
 
-      <div className="collapse collapse-arrow bg-black/40 rounded-lg">
+      <div className="collapse collapse-plus bg-black/40 rounded-lg">
         <input type="checkbox" />
         <div className="collapse-title text-lg font-medium">
           Learn why choosing us makes sense 🚗
