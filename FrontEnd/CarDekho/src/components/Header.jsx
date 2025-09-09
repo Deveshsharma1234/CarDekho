@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdHomeFilled } from "react-icons/md";
 import { PiInfoBold } from "react-icons/pi";
 import { BiSolidLogIn } from "react-icons/bi";
@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { ROLE_MAP as roleMap } from '../utils/constants';
 import logo from '../assets/logo.jpg';
 import { toggleCandleCursor } from "../redux/slice/candleSlice";
+import getBgClass from "../utils/css/getBackground";
 
 const Header = () => {
     const isLoggedIn = useSelector(store => store.user.isLoggedIn);
@@ -18,6 +19,7 @@ const Header = () => {
     const candleEnabled  = useSelector(store => store.candle.isOn)
     const dispatch = useDispatch();
     const logout = useLogout();
+    const location = useLocation();
 
     const handleLogout = () => {
         logout();
@@ -26,7 +28,7 @@ const Header = () => {
     
 
     return (
-        <div className="navbar bg-gradient-to-br from-black to-pink-950 shadow-md sticky top-0 z-10 flex items-center justify-between  px-4 py-2">
+        <div className={`navbar ${getBgClass(location.pathname)} shadow-md sticky top-0 z-10 flex items-center justify-between  px-4 py-2`}>
             <ToastContainer />
             <div className="flex-1 ">
                 <Link to={"/"} className="inline-block">

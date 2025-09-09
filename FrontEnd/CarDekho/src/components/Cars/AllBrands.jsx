@@ -3,6 +3,7 @@ import BrandsCard from './cards/BrandsCard';
 import useBrandData from '../../hooks/cars/useBrandData';
 import { toast } from 'react-toastify';
 import Shimmer from '../shared/Shimmer';
+import { Link } from "react-router-dom";
 
 const AllBrands = () => {
   const { brand, error } = useBrandData();
@@ -18,7 +19,9 @@ const AllBrands = () => {
       <div className="grid grid-cols-7 gap-4 justify-evenly">
         {brand.success === true && brand.data.length > 0 ? (
           brand.data.map((b) => (
-            <BrandsCard key={b.BrandId} name={b.BrandName} />
+            <Link key={b.BrandId} to={`/cars/${b.BrandId}`}>
+              <BrandsCard name={b.BrandName} />
+            </Link>
           ))
         ) : (
           <Shimmer />

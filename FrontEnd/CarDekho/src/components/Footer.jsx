@@ -1,8 +1,10 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
+import getBgClass from "../utils/css/getBackground";
 
 const Footer = () => {
+  const location = useLocation();
   return (
-    <footer className="footer  sm:footer-horizontal bg-gradient-to-br  from-black to-pink-950  p-4 flex flex-wrap justify-between text-sm ">
+    <footer className={`footer  sm:footer-horizontal ${getBgClass(location.pathname)}  p-4 flex flex-wrap justify-between text-sm `}>
       <nav>
         <h6 className="footer-title">Services</h6>
         <Link to={"#branding"} className="link link-hover">Branding</Link>

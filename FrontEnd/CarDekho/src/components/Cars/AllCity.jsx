@@ -3,6 +3,7 @@ import useCityData from "../../hooks/location/useCityData";
 import Shimmer from "../shared/Shimmer";
 import BrandsCard from "./cards/BrandsCard";
 import { toast } from "react-toastify";
+import { Link } from "react-router";
 
 const AllCity = () => {
   const { cities, error } = useCityData();
@@ -19,7 +20,8 @@ const AllCity = () => {
       <div className="grid grid-cols-5 gap-4 w-full">
         {cities && cities.listings && cities.listings.length > 0 ? (
           cities.listings.map((c) => (
-            <BrandsCard key={c.CityID} name={c.City} />
+            <Link key={c.CityID} to={`cars/${c.CityID}`}>
+            <BrandsCard key={c.CityID} name={c.City} /></Link>
           ))
         ) : (
           <Shimmer />

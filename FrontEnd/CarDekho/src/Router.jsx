@@ -5,6 +5,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Error from "./components/shared/Error";
+import Admin from "./pages/Admin/Admin";
+import AdminWelcome from "./components/Admin/AdminWelcome";
 
 
 const appRouter = createBrowserRouter([
@@ -50,11 +53,11 @@ const appRouter = createBrowserRouter([
                 children: [
                     {
                         // The Admin component will be the layout for all admin sub-routes
-                        element: "<Admin />",
+                        element: <Admin />,
                         children: [
                             {
                                 index: true,
-                                element:" <AdminWelcome />"
+                                element:<AdminWelcome />
                             },
                             {
                                 path: "dashboard",
@@ -77,7 +80,9 @@ const appRouter = createBrowserRouter([
                     }
                 ]
             }
-        ]
+        ],
+        errorElement: <Error />
+
     }
 ]);
 
