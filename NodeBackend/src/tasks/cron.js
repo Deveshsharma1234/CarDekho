@@ -9,7 +9,7 @@ function initializeCronJobs() {
   connectDB();
 
   // Schedule daily reports at midnight
-  cron.schedule('* * * * *', () => {
+  cron.schedule('0 0 * * *', () => {
     console.log('Generating daily reports...');
     const reportTypes = ['Sales', 'Revenue', 'Fraud', 'UserActivity', 'CarListings'];
 
