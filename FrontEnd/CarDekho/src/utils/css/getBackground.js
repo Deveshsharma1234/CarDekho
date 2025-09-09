@@ -25,3 +25,6 @@ export  function getCustomCursorBgClass(pathname) {
   return "bg-gradient-to-br from-black via-pink-950 to-yellow-600"; // default
 }
 
+
+
+export const getGradianShiftClass = () => "animated-gradient-text";

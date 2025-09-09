@@ -41,7 +41,7 @@ const Header = () => {
             </div>
             <div className="flex gap-3 items-center justify-center pr-6 ">
                 <div>
-                    <input type="checkbox"  onChange={() => dispatch(toggleCandleCursor())}  checked={candleEnabled} class="toggle toggle-secondary" />
+                    <input type="checkbox"  onChange={() => dispatch(toggleCandleCursor())}  checked={candleEnabled} className="toggle toggle-secondary" />
                 </div>
                 <Link to="/">
                     <MdHomeFilled className="size-11 text-indigo-600 hover:text-indigo-700 transition-colors" />
