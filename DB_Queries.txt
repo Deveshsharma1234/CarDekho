@@ -224,4 +224,23 @@ CREATE TABLE SellerVerification (
     FOREIGN KEY (VerifiedBy) REFERENCES Users(UserId)
 );
 
+CREATE TABLE filters (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    filter_name VARCHAR(100) NOT NULL,  -- e.g., 'Brand', 'Price Range', 'Fuel Type'
+    filter_key VARCHAR(50) NOT NULL,    -- e.g., 'brand', 'price', 'fuel'
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+INSERT INTO filters (filter_name, filter_key, is_active) VALUES
+('Car Brand', 'brand', TRUE),
+('Car Model', 'model', TRUE),
+('Price Range', 'price', TRUE),
+('Fuel Type', 'fuel', TRUE),
+('Transmission', 'transmission', TRUE),
+('City', 'city', TRUE),
+('Year', 'year', TRUE),
+('Mileage', 'mileage', TRUE),
+('Body Type', 'body_type', TRUE);
+
+
 

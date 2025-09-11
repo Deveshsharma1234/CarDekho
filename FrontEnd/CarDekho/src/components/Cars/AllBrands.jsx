@@ -19,7 +19,7 @@ const AllBrands = () => {
       <div className="grid grid-cols-7 gap-4 justify-evenly">
         {brand.success === true && brand.data.length > 0 ? (
           brand.data.map((b) => (
-            <Link key={b.BrandId} to={`/cars/${b.BrandId}`}>
+            <Link key={b.BrandId} to={`/cars-by-brand/${b.BrandId}`}>
               <BrandsCard name={b.BrandName} />
             </Link>
           ))

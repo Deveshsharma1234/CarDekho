@@ -20,7 +20,7 @@ const AllCity = () => {
       <div className="grid grid-cols-5 gap-4 w-full">
         {cities && cities.listings && cities.listings.length > 0 ? (
           cities.listings.map((c) => (
-            <Link key={c.CityID} to={`cars/${c.CityID}`}>
+            <Link key={c.CityID} to={`cars-by-city/${c.CityID}`}>
             <BrandsCard key={c.CityID} name={c.City} /></Link>
           ))
         ) : (

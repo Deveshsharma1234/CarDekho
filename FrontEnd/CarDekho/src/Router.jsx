@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Error from "./components/shared/Error";
 import Admin from "./pages/Admin/Admin";
 import AdminWelcome from "./components/Admin/AdminWelcome";
+import Listing from "./pages/Cars/Listing";
 
 
 const appRouter = createBrowserRouter([
@@ -29,7 +30,15 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: "/about-us",
-                element: <About /> // Open to all (assuming about us doesn't require login)
+                element: <About /> 
+            },
+            {
+                path: "/cars-by-brand/:BrandId",
+                element: <Listing/>
+            },
+            {
+                path: "/cars-by-city/:CityId",
+                element: <Listing/>
             },
             {
                 // No specific 'allowedRoles' means only 'isLoggedIn' check applies

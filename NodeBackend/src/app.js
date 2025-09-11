@@ -20,6 +20,7 @@ const verificationRouter  = require('./routes/verification');
 const wishlistRouter = require('./routes/wishlist');
 const { initializeCronJobs } = require('./tasks/cron');
 const path = require('path');
+const filterRouter = require('./routes/filter');
 
 
 app.use(
@@ -35,7 +36,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 // app.use("/app", authRouter , userRouter)
 
-app.use("/app", authRouter , userRouter,carsRouter,citiesRouter,districtRouter,stateRouter,fraudRouter,listingRouter,reviewRouter,reportRouter,transactionRouter,verificationRouter,wishlistRouter)
+app.use("/app", authRouter , userRouter,carsRouter,citiesRouter,districtRouter,stateRouter,fraudRouter,listingRouter,reviewRouter,reportRouter,transactionRouter,verificationRouter,wishlistRouter,filterRouter)
 app.use('/reports', express.static(path.join(__dirname, 'reports')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // connectDB(); 

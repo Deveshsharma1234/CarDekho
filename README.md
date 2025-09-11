@@ -82,3 +82,5 @@
 | Get all states             | GET    | `/locations/states`             | All   | `states`    |
 | Get all districts in state | GET    | `/locations/districts/:StateId` | All   | `districts` |
 | Get all cities in district | GET    | `/locations/cities/:DistrictId` | All   | `cities`    |
+
+🔟Filter APIs 
