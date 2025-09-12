@@ -2,6 +2,12 @@
 @plugin "daisyui"{
    themes: all;
 }
+* {
+  /* user-select: none;   disables text selection */
+  cursor: default;     /* arrow instead of text I-beam */
+}
+
+
 
 /* index.css or App.css */
 

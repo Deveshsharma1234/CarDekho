@@ -1,8 +1,8 @@
 // Get all active listings with images
 const getAllListingsQuery = `
-    SELECT l.ListingId, l.UserId, m.BrandId, b.BrandName AS BrandName, 
+    SELECT l.ListingId, l.UserId, m.BrandId, b.BrandName, 
            l.ModelId, m.ModelName, m.FuelType, m.Transmission, 
-           l.RegistrationYear AS Year, l.Mileage, l.Price, l.CityId AS CityID, 
+           l.RegistrationYear AS Year, l.Mileage, l.Price, l.CityId, 
            c.City AS CityName, l.Description, l.CreatedDate, l.ModifiedDate, 
            l.ActiveStatus AS ActiveState, GROUP_CONCAT(ci.ImageURL) AS Images
     FROM carlistings l
@@ -11,7 +11,6 @@ const getAllListingsQuery = `
     JOIN cities c ON l.CityId = c.CityId
     LEFT JOIN carimages ci ON l.ListingId = ci.ListingId
     WHERE l.ActiveStatus = 1
-    GROUP BY l.ListingId
 `;
 
 // Get listing by ID with images

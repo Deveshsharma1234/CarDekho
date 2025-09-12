@@ -16,52 +16,59 @@ const { watchFile } = require("fs");
 
 const listingRouter = express.Router();
 
-// Get all listings (searchable) with images as array
-listingRouter.get("/getAllListings",  authAndAuthorize(1, 2, 3, 4, 5), (req, res) => {
+    // Get all listings (searchable) with images as array
+    listingRouter.get("/getAllListings",authAndAuthorize(1, 2, 3, 4, 5), (req, res) => {
         try {
-            const { brand, model, city, minPrice, maxPrice } = req.query;
-            let statement = getAllListingsQuery;
-            const values = [];
+          const { brand, model, city, minPrice, maxPrice } = req.query;
+          let statement = getAllListingsQuery;
+          const values = [];
 
-            if (brand) {
-                statement += " AND BrandId = ?";
-                values.push(brand);
-            }
-            if (model) {
-                statement += " AND ModelId = ?";
-                values.push(model);
-            }
-            if (city) {
-                statement += " AND CityID = ?";
-                values.push(city);
-            }
-            if (minPrice) {
-                statement += " AND Price >= ?";
-                values.push(minPrice);
-            }
-            if (maxPrice) {
-                statement += " AND Price <= ?";
-                values.push(maxPrice);
-            }
+          if (brand) {
+            statement += " AND m.BrandId = ?";
+            values.push(brand);
+          }
+          if (model) {
+            statement += " AND l.ModelId = ?";
+            values.push(model);
+          }
+          if (city) {
+            statement += " AND l.CityId = ?";
+            values.push(city);
+          }
+          if (minPrice) {
+            statement += " AND l.Price >= ?";
+            values.push(minPrice);
+          }
+          if (maxPrice) {
+            statement += " AND l.Price <= ?";
+            values.push(maxPrice);
+          }
 
-            db.pool.query(statement, values, (err, listings) => {
-                if (err) return res.status(400).json({ error: err.message });
-                if (listings.length === 0)
-                    return res.status(404).json({ message: "No listings found" });
+          statement += `
+    GROUP BY l.ListingId, l.UserId, m.BrandId, b.BrandName, 
+             l.ModelId, m.ModelName, m.FuelType, m.Transmission,
+             l.RegistrationYear, l.Mileage, l.Price, l.CityId, 
+             c.City, l.Description, l.CreatedDate, l.ModifiedDate, l.ActiveStatus
+`;
 
-                // Convert images from comma-separated string to array
-                const formattedListings = listings.map((listing) => ({
-                    ...listing,
-                    Images: listing.Images ? listing.Images.split(",") : [],
-                }));
+          db.pool.query(statement, values, (err, listings) => {
+            if (err) return res.status(400).json({ error: err.message });
+            if (listings.length === 0)
+              return res.status(404).json({ message: "No listings found" });
 
-                res.json({ listings: formattedListings });
-            });
+            // Convert images from comma-separated string to array
+            const formattedListings = listings.map((listing) => ({
+              ...listing,
+              Images: listing.Images ? listing.Images.split(",") : [],
+            }));
+
+            res.json({ listings: formattedListings });
+          });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+          res.status(500).json({ error: error.message });
         }
-    }
-);
+      }
+    );
 
 
 // Get listing by ID with images as array

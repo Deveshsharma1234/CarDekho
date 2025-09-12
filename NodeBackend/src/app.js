@@ -37,8 +37,8 @@ app.use(morgan('dev'));
 // app.use("/app", authRouter , userRouter)
 
 app.use("/app", authRouter , userRouter,carsRouter,citiesRouter,districtRouter,stateRouter,fraudRouter,listingRouter,reviewRouter,reportRouter,transactionRouter,verificationRouter,wishlistRouter,filterRouter)
-app.use('/reports', express.static(path.join(__dirname, 'reports')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/app/reports', express.static(path.join(__dirname, 'reports')));
+app.use('/app/uploads', express.static(path.join(__dirname, 'uploads')));
 // connectDB(); 
 
 initializeCronJobs();
