@@ -6,7 +6,7 @@ const WhyUs = () => {
       <h1 className="text-2xl font-bold mb-4 text-center">Why Us?</h1>
 
       <div className="collapse collapse-plus bg-black/40 rounded-lg">
-        <input type="checkbox" />
+        <input type="checkbox" defaultChecked />
         <div className="collapse-title text-lg font-medium">
           Learn why choosing us makes sense 🚗
         </div>

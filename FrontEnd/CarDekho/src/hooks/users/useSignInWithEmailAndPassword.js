@@ -1,6 +1,6 @@
 import { Bounce, toast } from "react-toastify";
 import { useCallback } from "react";
-import loginValidation from "../../utils/validation/loginValidation";
+import EmailPassValidation from "../../utils/validation/emailPassValidation";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/slice/userSlice";
 import { BASE_URL } from "../../utils/constants";
@@ -17,7 +17,7 @@ const useSignInWithEmailAndPassword = () => {
                 toast.error("Both fields are required", { theme: "dark" });
                 return;
             }
-            const isValid = loginValidation(Email, Password);
+            const isValid = EmailPassValidation(Email, Password);
             if (!isValid) {
                 toast.error("Credentials are invalid", { theme: "dark" });
                 return;

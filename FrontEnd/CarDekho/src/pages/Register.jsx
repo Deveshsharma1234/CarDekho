@@ -4,6 +4,7 @@ import useLocationData from '../hooks/users/useLocationData';
 import useRegisterCitizen from '../hooks/users/useRegisterCitizen';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { Link, useNavigate } from 'react-router';
+import EmailPassValidaton from '../utils/validation/emailPassValidation';
 
 const Register = () => {
 
@@ -35,6 +36,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
+    const isValid = EmailPassValidaton(formData.Email, formData.Password);
+    if (!isValid) {
+      toast.error("Credentials are invalid", { theme: "dark" });
+      return;
+    }
     const data = await registerCitizen(formData);
 
     if (data?.message === "User Created Succesfull") {

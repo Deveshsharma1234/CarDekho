@@ -4,8 +4,8 @@ import useListingData from '../../../hooks/cars/useListingData';
 import Shimmer from '../../shared/Shimmer';
 import { toast } from 'react-toastify';
 
-const ListingSection = ({ filters }) => {
-  const { listing, loading, error } = useListingData(filters);
+const ListingSection = () => {
+  const { listing, loading, error } = useListingData();
 
   if (loading) return <Shimmer />;
   if (error) {

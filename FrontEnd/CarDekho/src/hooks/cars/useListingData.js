@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import apiClient from "../../utils/apiClient"; 
 import { BASE_URL } from "../../utils/constants";       
+import { useSelector } from "react-redux";
 
-const useListingData = (filters = {}) => {
+const useListingData = () => {
   const [listing, setListing] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const filters = useSelector(store => store.listingFilter.listingFilter)
+  console.log("Seletct filter from you in redux", filters);
+
 
   useEffect(() => {
     const fetchListing = async () => {

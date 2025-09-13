@@ -11,8 +11,8 @@ const useFilterData = () => {
   const fetchFilter = async () => {
     try {
       const response = await apiClient.get(`${BASE_URL}/getFilter`);
-      setFilter(response.data);
-      dispatch(addFilter(response.data));
+     setFilter(response.data.data); // only the array
+    dispatch(addFilter(response.data.data)); // only the array;
     } catch (error) {
       setError(error);
     }

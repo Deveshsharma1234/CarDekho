@@ -16,10 +16,10 @@ function App() {
   const hiddenPaths = ["/login", "/register"];
   const shouldHideHeaderFooter = hiddenPaths.includes(location.pathname); //on login and register hide header and footer
   const isCandleCursorOn = useSelector(store => store.candle.isOn)
-  useEffect(() => {
-    apiClient.get(BASE_URL + "/ping/pingWithAuth");
-    navigate('/login')
-  }, [navigate])
+  // useEffect(() => {
+  //   apiClient.get(BASE_URL + "/ping/pingWithAuth");
+  //   navigate('/login')
+  // }, [navigate])
 
   return (
     <>
