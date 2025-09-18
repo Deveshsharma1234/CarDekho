@@ -9,6 +9,7 @@ import Error from "./components/shared/Error";
 import Admin from "./pages/Admin/Admin";
 import AdminWelcome from "./components/Admin/AdminWelcome";
 import Listing from "./pages/Cars/Listing";
+import ViewCarDetails from "./pages/Cars/ViewCarDetails";
 
 
 const appRouter = createBrowserRouter([
@@ -39,6 +40,11 @@ const appRouter = createBrowserRouter([
             {
                 path: "/cars-by-city/:CityId",
                 element: <Listing/>
+            },
+            {
+                path: "/ViewCarDetails/:listingId",
+                element: <ViewCarDetails/>
+
             },
             {
                 // No specific 'allowedRoles' means only 'isLoggedIn' check applies

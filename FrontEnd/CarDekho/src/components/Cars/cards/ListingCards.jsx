@@ -1,7 +1,9 @@
+import { Link } from "react-router";
 import logo from "../../../assets/logo.jpg"
 import { BASE_URL } from "../../../utils/constants";
 
 const ListingCards = ({
+  ListingId,
   BrandName,
   ModelName,
   FuelType,
@@ -51,9 +53,11 @@ const ListingCards = ({
 
         
         <div className="card-actions justify-end mt-3">
+          <Link to={`/ViewCarDetails/${ListingId}`}>
           <button className="btn btn-sm btn-outline btn-primary">
             View Seller Details
           </button>
+          </Link>
         </div>
       </div>
     </div>
