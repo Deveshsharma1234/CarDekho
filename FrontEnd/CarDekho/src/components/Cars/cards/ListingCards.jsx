@@ -52,7 +52,7 @@ const ListingCards = ({
         
         <div className="card-actions justify-end mt-3">
           <button className="btn btn-sm btn-outline btn-primary">
-            View Details
+            View Seller Details
           </button>
         </div>
       </div>

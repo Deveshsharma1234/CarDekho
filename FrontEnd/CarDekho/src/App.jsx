@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      {/* Add CustomCursor at root */}
+      
      { isCandleCursorOn && <CustomCursor />}
 
       <div className="min-h-screen flex flex-col">

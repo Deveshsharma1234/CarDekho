@@ -12,7 +12,6 @@ const {
     getListingsByDealerQuery,
     getCilyListedWithCar
 } = require("../utils/query/listingQuery");
-const { watchFile } = require("fs");
 
 const listingRouter = express.Router();
 
