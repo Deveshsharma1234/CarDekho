@@ -1,19 +1,20 @@
 import React from 'react';
 import ImageSlider from '../../shared/ImageSlilder';
 import { FaSquareWhatsapp } from "react-icons/fa6";
+import { BiHeart } from 'react-icons/bi';
 
 const CarInfo = ({ param, user }) => {
-  
- const handleWhatsAppRedirect = () => {
-  if (!user?.Phone) return;
-  let phoneNumber = user.Phone.replace(/\D/g, "");
-  if (phoneNumber.length === 10) {
-    phoneNumber = "+91" + phoneNumber;
-  }
-  const message = `Hello ${user.FirstName}, I'm interested in your ${param?.BrandName} ${param?.ModelName} (${param?.Year}). Is it still available?`;
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  window.open(whatsappUrl, "_blank"); // opens in new tab
-};
+
+  const handleWhatsAppRedirect = () => {
+    if (!user?.Phone) return;
+    let phoneNumber = user.Phone.replace(/\D/g, "");
+    if (phoneNumber.length === 10) {
+      phoneNumber = "+91" + phoneNumber;
+    }
+    const message = `Hello ${user.FirstName}, I'm interested in your ${param?.BrandName} ${param?.ModelName} (${param?.Year}). Is it still available?`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank"); // opens in new tab
+  };
 
   return (
     <div className="flex justify-center items-start py-10 bg-base-200">
@@ -26,10 +27,20 @@ const CarInfo = ({ param, user }) => {
         {/* Card Body */}
         <div className="card-body p-6">
           {/* Title */}
-          <h2 className="card-title text-2xl font-bold text-white-800">
-            {param?.BrandName} {param?.ModelName}{" "}
-            <span className="text-white-500">({param?.Year})</span>
+          <h2 className="card-title text-2xl font-bold text-white flex items-center justify-between">
+            <span>
+              {param?.BrandName} {param?.ModelName}{" "}
+              <span className="text-white/50">({param?.Year})</span>
+            </span>
+           <div className="relative group">
+  <BiHeart className="h-8 w-8 text-white cursor-pointer hover:text-red-500 transition-colors" />
+  <span className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-semibold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity ">
+    Add to Wishlist
+  </span>
+</div>
+
           </h2>
+
 
           {/* Description */}
           <p className="text-base text-white-600 mt-2">
@@ -60,8 +71,8 @@ const CarInfo = ({ param, user }) => {
           <div className="card-actions justify-evenly mt-6">
             <button className="btn btn-primary px-6">Buy Now</button>
             <button className="btn btn-secondary px-6 hover:bg-red-950"
-            onClick={handleWhatsAppRedirect}> 
-            <FaSquareWhatsapp  className='mr-2 h-10 w-10 text-white'/>
+              onClick={handleWhatsAppRedirect}>
+              <FaSquareWhatsapp className='mr-2 h-10 w-10 text-white' />
               Contact Seller</button>
           </div>
         </div>
