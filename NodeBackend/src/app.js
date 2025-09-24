@@ -25,7 +25,7 @@ const filterRouter = require('./routes/filter');
 
 app.use(
     cors({
-        origin: "http://localhost:5173", // frontend origin
+        origin:[ "http://192.168.3.111:3000", "http://localhost:5173"] ,// frontend origin
         credentials: true,               // allow cookies & headers
     })
 );

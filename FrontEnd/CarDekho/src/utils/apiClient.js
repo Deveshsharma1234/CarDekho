@@ -7,7 +7,7 @@ import { BASE_URL } from './constants';
 // Create axios instance
 const apiClient = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, 
+ withCredentials: true, 
 });
 
 // Added response interceptor

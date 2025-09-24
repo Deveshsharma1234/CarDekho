@@ -91,7 +91,7 @@ listingRouter.get("/ListingById/:ListingId", authAndAuthorize(1, 2, 3, 4, 5),
     }
 );
 // Get City where car listed
-listingRouter.get("/citiesWithCarListed", authAndAuthorize(1,2,3,4,5),
+listingRouter.get("/citiesWithCarListed",
     (req, res) => {
         try {
             db.pool.query(getCilyListedWithCar, (err, listings) => {

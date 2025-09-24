@@ -163,6 +163,10 @@ CREATE TABLE Wishlist (
     FOREIGN KEY (ListingId) REFERENCES CarListings(ListingId)
 );
 
+ALTER TABLE wishlist
+ADD CONSTRAINT unique_userid_listingid UNIQUE (UserId, ListingId);
+
+
 -- Reviews for specific car listings
 CREATE TABLE CarReviews (
     ReviewId INT AUTO_INCREMENT PRIMARY KEY,

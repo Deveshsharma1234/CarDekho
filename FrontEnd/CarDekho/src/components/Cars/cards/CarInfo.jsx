@@ -2,8 +2,28 @@ import React from 'react';
 import ImageSlider from '../../shared/ImageSlilder';
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { BiHeart } from 'react-icons/bi';
+import useAddToWishList from '../../../hooks/cars/useAddToWishList';
+import { toast } from 'react-toastify';
 
 const CarInfo = ({ param, user }) => {
+  console.log( "Thsi is param to check listing id" , param);
+  console.log(user);
+ const addToWishList = useAddToWishList();
+
+  const handleAddToWishList = async () => {
+  try {
+    const res = await addToWishList(param.ListingId);
+    console.log("Added:", res);
+    toast.success("Added to wishlist", { theme: "dark" });
+  } catch (err) {
+    if (err.response?.data?.message === "Already in wishlist") {   
+      toast.info("Already in wishlist", { theme: "dark" });
+    }else {
+      console.error("Error adding:", err.response?.data || err.message);
+      toast.error("Error adding to wishlist", { theme: "dark" });
+    }
+  }
+};
 
   const handleWhatsAppRedirect = () => {
     if (!user?.Phone) return;
@@ -33,7 +53,7 @@ const CarInfo = ({ param, user }) => {
               <span className="text-white/50">({param?.Year})</span>
             </span>
            <div className="relative group">
-  <BiHeart className="h-8 w-8 text-white cursor-pointer hover:text-red-500 transition-colors" />
+  <BiHeart className="h-8 w-8 text-white cursor-pointer hover:text-red-500 transition-colors" onClick={handleAddToWishList} />
   <span className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-semibold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity ">
     Add to Wishlist
   </span>
