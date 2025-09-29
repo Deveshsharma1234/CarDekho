@@ -10,6 +10,7 @@ import Admin from "./pages/Admin/Admin";
 import AdminWelcome from "./components/Admin/AdminWelcome";
 import Listing from "./pages/Cars/Listing";
 import ViewCarDetails from "./pages/Cars/ViewCarDetails";
+import Profile from "./pages/User/Profile";
 
 
 const appRouter = createBrowserRouter([
@@ -53,7 +54,7 @@ const appRouter = createBrowserRouter([
                 children: [
                     {
                         path: "/profile",
-                        element: "<Profile />"
+                        element: <Profile />
                     },
                     {
                         path: "/edit-profile",

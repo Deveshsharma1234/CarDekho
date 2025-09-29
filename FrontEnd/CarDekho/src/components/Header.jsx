@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoLogOut } from "react-icons/io5";
 import useLogout from "../hooks/users/useLogout";
 import { ToastContainer } from "react-toastify";
-import { ROLE_MAP as roleMap } from '../utils/constants';
+import { ROLE_MAP } from '../utils/constants';
 import logo from '../assets/logo.jpg';
 import { toggleCandleCursor } from "../redux/slice/candleSlice";
 import getBgClass from "../utils/css/getBackground";
@@ -16,16 +16,17 @@ import getBgClass from "../utils/css/getBackground";
 const Header = () => {
     const isLoggedIn = useSelector(store => store.user.isLoggedIn);
     const user = useSelector(store => store.user.user);
-    const candleEnabled  = useSelector(store => store.candle.isOn)
+    const candleEnabled = useSelector(store => store.candle.isOn)
     const dispatch = useDispatch();
     const logout = useLogout();
     const location = useLocation();
+    const IconComponent = ROLE_MAP[user?.RoleId]?.icon;
 
     const handleLogout = () => {
         logout();
     };
 
-    
+
 
     return (
         <div className={`navbar ${getBgClass(location.pathname)} shadow-md sticky top-0 z-10 flex items-center justify-between  px-4 py-2`}>
@@ -41,7 +42,7 @@ const Header = () => {
             </div>
             <div className="flex gap-3 items-center justify-center pr-6 ">
                 <div>
-                    <input type="checkbox"  onChange={() => dispatch(toggleCandleCursor())}  checked={candleEnabled} className="toggle toggle-secondary" />
+                    <input type="checkbox" onChange={() => dispatch(toggleCandleCursor())} checked={candleEnabled} className="toggle toggle-secondary" />
                 </div>
                 <Link to="/">
                     <MdHomeFilled className="size-11 text-indigo-600 hover:text-indigo-700 transition-colors" />
@@ -64,26 +65,23 @@ const Header = () => {
                     <span className="font-medium">Knowledge Base</span>
                 </a>
 
-                {roleMap[user?.RoleId] && user.RoleId !== 4 ? (
+
+                {isLoggedIn && ROLE_MAP[user?.RoleId] && (
                     <Link
                         className="flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-xl hover:bg-teal-700 transition-colors"
-                        to={"/admin"}
+                        to={ROLE_MAP[user?.RoleId]?.path}
                     >
-                        {/* <SiAboutdotme className="size-5" /> */}
-                        <MdOutlineAdminPanelSettings/>
-                        <span className="font-medium">{roleMap[user?.RoleId]?.text}</span>
+                        {IconComponent && <IconComponent />}
+                        <span className="font-medium">
+                            {user?.RoleId === 2
+                                ? `Hello, ${user?.FirstName}`
+                                : ROLE_MAP[user?.RoleId]?.text}
+                        </span>
                     </Link>
-                ) : (
-                    isLoggedIn && (
-                        <Link
-                            className="flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-xl hover:bg-teal-700 transition-colors"
-                            to={"/profile"}
-                        >
-                            <FaRegUser />
-                            <span className="font-medium">Hello, {user?.FirstName}</span>
-                        </Link>
-                    )
                 )}
+
+
+
 
                 <div>
                     {isLoggedIn ? (
