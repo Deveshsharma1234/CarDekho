@@ -1,0 +1,9 @@
+ <div class="login-container">
+    <h2>Login</h2>
+    <form>
+      <input type="email" placeholder="Email" (input)="handleInputEmail($event)" required>
+      <input type="password" placeholder="Password"  (input)="handleInputPassword($event)"equired>
+      <button (click)="handleLogin()" type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="#">Register</a></p>
+  </div>
