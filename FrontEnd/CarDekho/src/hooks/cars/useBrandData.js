@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import apiClient from "../../utils/apiClient";
 import { BASE_URL } from "../../utils/constants";
 import { useDispatch } from "react-redux";

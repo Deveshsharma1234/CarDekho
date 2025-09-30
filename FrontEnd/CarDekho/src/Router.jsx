@@ -11,6 +11,8 @@ import AdminWelcome from "./components/Admin/AdminWelcome";
 import Listing from "./pages/Cars/Listing";
 import ViewCarDetails from "./pages/Cars/ViewCarDetails";
 import Profile from "./pages/User/Profile";
+import UserProfile from "./components/User/UserProfile";
+import AddListing from "./components/Cars/AddListing";
 
 
 const appRouter = createBrowserRouter([
@@ -32,36 +34,50 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: "/about-us",
-                element: <About /> 
+                element: <About />
             },
             {
                 path: "/cars-by-brand/:BrandId",
-                element: <Listing/>
+                element: <Listing />
             },
             {
                 path: "/cars-by-city/:CityId",
-                element: <Listing/>
+                element: <Listing />
             },
             {
                 path: "/ViewCarDetails/:listingId",
-                element: <ViewCarDetails/>
+                element: <ViewCarDetails />
 
             },
             {
                 // No specific 'allowedRoles' means only 'isLoggedIn' check applies
-                path: "/", // Keep it at the root for common user-level protection
-                element: <ProtectedRoute />, // Just check if logged in
+                path: "/profile", // Keep it at the root for common user-level protection
+                element: (
+                    <ProtectedRoute>
+                        <Profile />  {/* ✅ this is the layout with sidebar + outlet */}
+                    </ProtectedRoute>
+                ), // Just check if logged in
                 children: [
                     {
-                        path: "/profile",
-                        element: <Profile />
+                        element: <Profile />,     // ✅ layout with sidebar + <Outlet />
+                        children: [
+                            {
+                                index: true,
+                                element: <UserProfile />  // ✅ this goes inside Profile’s <Outlet />
+                            },
+                            {
+                                path: "me",
+                                element: <UserProfile />
+                            },
+                            {
+                                path: "list-car",
+                                element:<AddListing/>
+                            }
+                        ]
                     },
-                    {
-                        path: "/edit-profile",
-                        element: "<EditProfile />"
-                    },
-                ]
+                ],
             },
+
             // Admin routes that require specific roles (1, 2, 3)
             {
                 path: "/admin",
@@ -73,7 +89,7 @@ const appRouter = createBrowserRouter([
                         children: [
                             {
                                 index: true,
-                                element:<AdminWelcome />
+                                element: <AdminWelcome />
                             },
                             {
                                 path: "dashboard",
@@ -85,13 +101,13 @@ const appRouter = createBrowserRouter([
                             },
                             {
                                 path: "users",
-                                element:" <Users/>"
+                                element: " <Users/>"
                             },
                             {
                                 path: "register", // Admin can register other admins/users
                                 element: "<AdminRegister/>"
                             },
-                           
+
                         ]
                     }
                 ]

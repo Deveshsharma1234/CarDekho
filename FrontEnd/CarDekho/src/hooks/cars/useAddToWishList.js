@@ -4,15 +4,10 @@ import { BASE_URL } from "../../utils/constants";
 
 const useAddToWishList = () => {
   const addToWishList = useCallback(async (listingId) => {
-    try {
-        
-      const response = await apiClient.post(`${BASE_URL}/addWish`, {
-        ListingId: listingId,
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await apiClient.post(`${BASE_URL}/addWish`, {
+      ListingId: listingId,
+    });
+    return response.data;
   }, []);
 
   return addToWishList;

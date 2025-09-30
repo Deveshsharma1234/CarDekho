@@ -108,7 +108,7 @@ listingRouter.get("/citiesWithCarListed",
 );
 
 // POST /listCar
-listingRouter.post('/listCar', authAndAuthorize(1, 2, 3), async (req, res) => {
+listingRouter.post('/listCar', authAndAuthorize(1, 2, 3,4,5), async (req, res) => {
     try {
         const user = req.user;
         const { ModelId, RegistrationYear, Mileage, Price, CityId, Description } = req.body;
@@ -145,7 +145,7 @@ listingRouter.post('/listCar', authAndAuthorize(1, 2, 3), async (req, res) => {
 });
 
 // POST /listCar/:ListingId/images
-listingRouter.post('/listCar/:ListingId/images', authAndAuthorize(1, 2, 3), upload.array('images', 5), async (req, res) => {
+listingRouter.post('/listCar/:ListingId/images', authAndAuthorize(1, 2, 3,4,5), upload.array('images', 5), async (req, res) => {
     try {
         const { ListingId } = req.params;
 

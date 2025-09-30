@@ -23,7 +23,7 @@ userRouter.get("/getAllUsers", authAndAuthorize(Roles.Admin, Roles.Verifier,Role
 })
 
 // to get other users profile by admin , gov officer and rep only
-userRouter.get("/user/:UserId", authAndAuthorize(Roles.Admin, Roles.Verifier,Roles.Dealer, Roles.SupportStaff), (req, res) => {
+userRouter.get("/user/:UserId", authAndAuthorize(Roles.Admin,Roles.Citizen, Roles.Verifier,Roles.Dealer, Roles.SupportStaff), (req, res) => {
     try {
         const { UserId } = req.params;
         const statement = getUserByIdQuery
